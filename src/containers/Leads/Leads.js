@@ -19,6 +19,9 @@ const Leads = (props) => {
   const applyFilter = (filterObj) => {
     setFilters(filterObj);
   };
+  const resetFilter = (filterObj) => {
+    setFilters(filterObj);
+  };
 
   return (
     <Fragment>
@@ -26,7 +29,10 @@ const Leads = (props) => {
         <Container>
           <Row className="leads-content">
             <Col md="10">
-              <LeadsFilters applyFilter={applyFilter} />
+              <LeadsFilters
+                applyFilter={applyFilter}
+                resetFilter={resetFilter}
+              />
             </Col>
             <Col md="2" className="mb-1 mt-2 mb-sm-0">
               <Button

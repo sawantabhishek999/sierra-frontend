@@ -1,5 +1,14 @@
-import React, { useState, Fragment } from "react";
-import { Col, Button, Form, FormGroup, Label, Input, Card } from "reactstrap";
+import React, { useState, Fragment, useEffect } from "react";
+import {
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+} from "reactstrap";
 
 const LeadsFilters = (props) => {
   const [name, setName] = useState("");
@@ -15,6 +24,17 @@ const LeadsFilters = (props) => {
   const onInputPhone = (event) => {
     setPhone(event.target.value);
   };
+  const resetFilters = () => {
+    setName("");
+    setEmail("");
+    setPhone("");
+    props.resetFilter({ name: "", email: "", phone: "" });
+  };
+
+  useEffect(() => {
+    resetFilters();
+  }, []);
+
   return (
     <Fragment>
       <Card style={{ width: "100%", height: "100%", padding: "5px" }}>
@@ -27,6 +47,7 @@ const LeadsFilters = (props) => {
               name="name"
               id="name"
               placeholder="enter name"
+              value={name}
               onChange={onInputName}
             />
           </FormGroup>
@@ -38,6 +59,7 @@ const LeadsFilters = (props) => {
               type="email"
               name="email"
               id="email"
+              value={email}
               placeholder="enter email"
               onChange={onInputEmail}
             />
@@ -50,13 +72,15 @@ const LeadsFilters = (props) => {
               type="number"
               name="phone"
               id="phone"
+              value={phone}
               placeholder="enter phone"
               onChange={onInputPhone}
             />
           </FormGroup>
           &nbsp;&nbsp;&nbsp;
-          <FormGroup row>
-            <Col sm={{ size: 10, offset: 2 }}>
+          <FormGroup className="mb-2 sm-3 mb-sm-0">
+            {/* <Col sm={{ size: 10, offset: 2 }}>*/}
+            <Row>
               <Button
                 size="md"
                 className="add-btn"
@@ -65,7 +89,16 @@ const LeadsFilters = (props) => {
               >
                 Apply
               </Button>
-            </Col>
+              <Button
+                size="md"
+                className="add-btn"
+                color="btn btn-warning"
+                onClick={resetFilters}
+              >
+                Reset
+              </Button>
+            </Row>
+            {/* </Col> */}
           </FormGroup>
         </Form>
       </Card>

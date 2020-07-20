@@ -1,5 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { Alert, Spinner } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 import Table from "../../../components/Table/Table";
 import LeadBadge from "../../../components/LeadBadge/LeadBadge";
 import LeadName from "../../../components/LeadName/LeadName";
@@ -58,11 +60,12 @@ const LeadsList = (props) => {
       sort: false,
       formatter: (cellContent, row) => {
         return (
-          <span
-            className="btn btn-sm btn-success add-btn"
-            onClick={() => setLead(row.id)}
-          >
-            Details
+          <span style={{ cursor: "pointer" }} onClick={() => setLead(row.id)}>
+            <FontAwesomeIcon
+              color="green"
+              size="24"
+              icon={faArrowCircleRight}
+            />
           </span>
         );
       },
