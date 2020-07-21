@@ -1,14 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-} from "reactstrap";
+import { Row, Button, Form, FormGroup, Label, Input, Card } from "reactstrap";
 
 const LeadsFilters = (props) => {
   const [name, setName] = useState("");

@@ -5,12 +5,13 @@ import axios from "../../../../utils/services/axios-base.service";
 import LeadDetailsPanel from "../../../../components/LeadDetailsPanel/LeadDetailsPanel";
 import LeadBasicInfo from "../../../../components/LeadBasicInfo/LeadBasicInfo";
 import LeadContactDetails from "../../../../components/LeadContactDetails/LeadContactDetails";
+import LeadAgentInfo from "../../../../components/LeadAgentInfo/LeadAgentInfo";
+import LeadPreferencesInfo from "../../../../components/LeadPreferencesInfo/LeadPreferencesInfo";
 
 const LeadDetails = (props) => {
-  const [icCreateMode, setIsCreateMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [lead, setLead] = useState(null);
-  const [leadId, setLeadId] = useState(props.leadId);
+  const [leadId] = useState(props.leadId);
 
   const getLeadDetails = (leadId) => {
     setIsLoading(true);
@@ -55,9 +56,15 @@ const LeadDetails = (props) => {
               </Col>
               <Col md="4">
                 <CollapsibleComponent>
-                  <LeadDetailsPanel title="Agent Info" content={""} />
+                  <LeadDetailsPanel
+                    title="Agent Info"
+                    content={<LeadAgentInfo lead={lead} />}
+                  />
                   <div style={{ borderBottom: "5px white solid" }}></div>
-                  <LeadDetailsPanel title="Preferences" content={""} />
+                  <LeadDetailsPanel
+                    title="Preferences"
+                    content={<LeadPreferencesInfo lead={lead} />}
+                  />
                 </CollapsibleComponent>
               </Col>
             </Row>

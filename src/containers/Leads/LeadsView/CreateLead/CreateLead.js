@@ -3,12 +3,7 @@ import {
   AvForm,
   AvField,
   AvGroup,
-  AvInput,
   AvFeedback,
-  AvRadioGroup,
-  AvRadio,
-  AvCheckboxGroup,
-  AvCheckbox,
 } from "availity-reactstrap-validation";
 import {
   Button,
@@ -19,7 +14,6 @@ import {
   Col,
   Row,
   Card,
-  CardHeader,
   CardBody,
   InputGroup,
   InputGroupAddon,
@@ -27,13 +21,14 @@ import {
 } from "reactstrap";
 import InputMask from "react-input-mask";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { COMMON_REGEX } from "../../../../utils/constants";
 import axios from "../../../../utils/services/axios-base.service";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateLead = (props) => {
-  const [icCreateMode, setIsCreateMode] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [lead, setLead] = useState({});
   const [cellNumberInvalid, setCellNumberInvalid] = useState(false);
@@ -53,60 +48,89 @@ const CreateLead = (props) => {
   const submit = () => {
     setIsLoading(true);
     createLead();
-    props.toggleView();
   };
   const cancel = () => {
     props.toggleView();
   };
 
   const onInput = (event) => {
-    debugger;
-    if (event.target.id === "fname") {
-      lead.firstName = event.target.value;
-    } else if (event.target.id === "lname") {
-      lead.lastName = event.target.value;
-    } else if (event.target.id === "email") {
-      lead.email = event.target.value;
-    } else if (event.target.id === "phone") {
-      lead.phone = event.target.value;
-    } else if (event.target.id === "confirmPassword") {
-      lead.password = event.target.value;
-    } else if (event.target.id === "lenderType") {
-      lead.leadType = event.target.value;
+    if (event.target) {
+      if (event.target.id === "fname") {
+        lead.firstName = event.target.value;
+      } else if (event.target.id === "lname") {
+        lead.lastName = event.target.value;
+      } else if (event.target.id === "email") {
+        lead.email = event.target.value;
+      } else if (event.target.id === "phone") {
+        lead.phone = event.target.value;
+      } else if (event.target.id === "confirmPassword") {
+        lead.password = event.target.value;
+      } else if (event.target.name === "leadType") {
+        lead.leadType = event.target.value;
+      }
+    } else {
+      lead.assignTo = {
+        agentUserId: event.value,
+      };
     }
     setLead(lead);
   };
 
   const createLead = () => {
-    alert(JSON.stringify(lead));
     axios
       .post(`/api/Leads`, lead)
       .then((response) => {
+        debugger;
+        console.log(response);
         if (response && response.data && !response.data.isError) {
-          // let responseDataList = response.data.data.leads;
-          // setTotalLeads(response.data.data.totalRecords);
-          // const lstLeads = responseDataList.map((item) => {
-          //   return {
-          //     name: `${item.firstName} ${item.lastName}`,
-          //     id: item.id,
-          //     email: item.email,
-          //     phone: item.phone,
-          //     leadType: item.leadType,
-          //     leadStatus: item.leadStatus,
-          //   };
-          // });
+          notify(response.data.message, true);
           setIsLoading(false);
+          setTimeout(() => {
+            props.toggleView();
+          }, 2000);
         } else {
+          notify(response.data.message, false);
           setIsLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
         setIsLoading(false);
+        notify(err, false);
       });
   };
+
+  const notify = (message, isSuccess) => {
+    debugger;
+    const toastConfig = {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    };
+    isSuccess
+      ? toast.success(message, toastConfig)
+      : toast.error(message, toastConfig);
+  };
+
   return (
     <Fragment>
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      {/* Same as */}
+      <ToastContainer />
       <Container className="create-lead-container">
         <Card>
           <CardBody style={{ padding: "20px" }}>
@@ -297,7 +321,7 @@ const CreateLead = (props) => {
                         Lead Type
                       </Label>
                       <Col sm={9}>
-                        <FormGroup row tag="fieldset">
+                        <FormGroup row tag="fieldset" onChange={onInput}>
                           <Col sm={4}>
                             <FormGroup check>
                               <Label check>
@@ -310,7 +334,7 @@ const CreateLead = (props) => {
                             <FormGroup check>
                               <Label check>
                                 <Input type="radio" name="leadType" value={2} />{" "}
-                                Seller
+                                Lender
                               </Label>
                             </FormGroup>
                           </Col>
@@ -332,7 +356,11 @@ const CreateLead = (props) => {
                         Agent
                       </Label>
                       <Col sm={9}>
-                        <Select options={agents} />
+                        <Select
+                          options={agents}
+                          id="agent"
+                          onChange={onInput}
+                        />
                       </Col>
                     </FormGroup>
                   </Col>
