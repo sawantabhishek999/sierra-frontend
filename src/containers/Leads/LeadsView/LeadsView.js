@@ -1,8 +1,9 @@
 import React, { useState, Fragment } from "react";
-import { Button, Row } from "reactstrap";
+import { Row, Container, CardBody, Card, CardHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import CreateLead from "../LeadsView/CreateLead/CreateLead";
+import LeadDetails from "./LeadDetails/LeadDetails";
 
 const LeadsView = (props) => {
   const [isDetailsView] = useState(true);
@@ -13,15 +14,26 @@ const LeadsView = (props) => {
 
   return (
     <Fragment className="leads-content">
-      <Row>
-        <FontAwesomeIcon icon={faArrowCircleLeft} />
-      </Row>
-      {props.lead}
-      {props.createView ? (
-        <CreateLead toggleView={toggleView} />
-      ) : (
-        <p>Leads view will come here</p>
-      )}
+      <Container style={{ marginTop: "20px" }}>
+        <Card>
+          <CardHeader style={{ textAlign: "left" }}>
+            <span onClick={toggleView} style={{ cursor: "pointer" }}>
+              <FontAwesomeIcon icon={faArrowCircleLeft} size={20} />
+            </span>{" "}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            {props.createView ? <b>Create new Lead</b> : <b>Lead Details</b>}
+          </CardHeader>
+          <CardBody>
+            <Row>
+              {props.createView ? (
+                <CreateLead toggleView={toggleView} />
+              ) : (
+                <LeadDetails leadId={props.lead} />
+              )}
+            </Row>
+          </CardBody>
+        </Card>
+      </Container>
     </Fragment>
   );
 };

@@ -109,7 +109,6 @@ const CreateLead = (props) => {
     <Fragment>
       <Container className="create-lead-container">
         <Card>
-          <CardHeader>Create New Lead</CardHeader>
           <CardBody style={{ padding: "20px" }}>
             <CardTitle>
               <b>Basic Details</b>
