@@ -15,10 +15,10 @@ const LeadPreferencesInfo = (props) => {
           <div style={{ width: "100%" }}>
             <Col sm={12}>
               <Row>
-                <Col sm={5}>
+                <Col sm={8}>
                   <b>E-alert Optout:</b>
                 </Col>
-                <Col sm={5} style={{ textAlign: "left" }}>
+                <Col sm={4} style={{ textAlign: "left" }}>
                   {props.lead.eAlertOptOut ? (
                     <FontAwesomeIcon color="green" icon={faCheckCircle} />
                   ) : (
@@ -33,10 +33,10 @@ const LeadPreferencesInfo = (props) => {
             </Col>
             <Col sm={12}>
               <Row>
-                <Col sm={5}>
+                <Col sm={8}>
                   <b>Mkt. Email:</b>
                 </Col>
-                <Col sm={5} style={{ textAlign: "left" }}>
+                <Col sm={4} style={{ textAlign: "left" }}>
                   {props.lead.marketingEmailOptOut ? (
                     <FontAwesomeIcon color="green" icon={faCheckCircle} />
                   ) : (
@@ -51,10 +51,10 @@ const LeadPreferencesInfo = (props) => {
             </Col>
             <Col sm={12}>
               <Row>
-                <Col sm={5}>
+                <Col sm={8}>
                   <b>Text Optout:</b>
                 </Col>
-                <Col sm={5} style={{ textAlign: "left" }}>
+                <Col sm={4} style={{ textAlign: "left" }}>
                   {props.lead.textOptOut ? (
                     <FontAwesomeIcon color="green" icon={faCheckCircle} />
                   ) : (
